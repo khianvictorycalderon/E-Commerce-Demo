@@ -4,7 +4,7 @@
 document.body.prepend(
   NavBarComponent({
     title: "E-Shop",
-    image: "assets/logo.png",
+    image: "icons/e-commerce-demo.png",
     className: "!bg-gray-50", // fits e-commerce theme
     buttons: [
       { 
