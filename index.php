@@ -7,6 +7,7 @@
     <script src="assets/tailwind-3.4.17.js"></script>
 
     <!-- Defer scripts -->
+    <script src="assets/components/navbar.js" defer></script>
     <script src="assets/main.js" defer></script>
     
     <title>E-Commerce Demo</title>
