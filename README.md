@@ -12,6 +12,3 @@ I recommend using XAMPP as it comes with built-in Apache for PHP and MySQL Serve
 3. Start Apache and MySQL from XAMPP control panel.
 4. Go to your browser and run `localhost/e-commerce-demo`
 5. Enjoy!
-
-## NOTES
-This project is my first real PHP + MySQL website system. I don't plan on deploying this since this is for demo purpose only.
