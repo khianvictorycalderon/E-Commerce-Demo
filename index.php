@@ -10,8 +10,6 @@
   </head>
   <body>
 
-    <?php include 'components/navbar.php'; ?>
-
     <h2>E-Commerce Demo</h2>
 
   </body>
