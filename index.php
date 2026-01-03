@@ -3,7 +3,11 @@
   <head>
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script src="assets/main.js"></script>
+    <!-- Tailwind should not be a defer -->
+    <script src="assets/tailwind-3.4.17.js"></script>
+
+    <!-- Defer scripts -->
+    <script src="assets/main.js" defer></script>
     
     <title>E-Commerce Demo</title>
   </head>
