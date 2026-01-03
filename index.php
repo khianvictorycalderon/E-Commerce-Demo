@@ -14,7 +14,6 @@
   <body>
 
     <h2>E-Commerce Demo</h2>
-    <h3 class="text-6xl">Tailwind Test</h3>
 
   </body>
 </html>
