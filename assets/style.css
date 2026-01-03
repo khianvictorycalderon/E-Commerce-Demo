@@ -1,3 +1,25 @@
+:root {
+    --color-primary: #4FACFE;
+    --color-primary-lighter: #85C8FE;
+    --color-primary-darker: #3A99E6;
+
+    --color-secondary: #28A745;
+    --color-secondary-lighter: #5BC77A;
+    --color-secondary-darker: #1E7E34;
+
+    --color-tertiary: #FF6F61;
+    --color-tertiary-lighter: #FF8A75;
+    --color-tertiary-darker: #E65C50;
+
+    --color-neutral: #F5F5F5;
+    --color-neutral-light: #EDEDED;
+    --color-neutral-lighter: #F9F9F9;
+    --color-neutral-lightest: #FFFFFF;
+    --color-neutral-dark: #D1D1D1;
+    --color-neutral-darker: #999999;
+    --color-neutral-darkest: #333333;
+}
+
 body {
     background:rgb(32, 42, 44);
     font-size:1.5rem;
