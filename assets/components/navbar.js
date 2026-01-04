@@ -52,7 +52,7 @@ export function NavBarComponent({
   // --- TEMPLATE ---
   const navbar = `
     <nav class="fixed top-0 left-0 w-full shadow z-50 bg-white ${className}">
-      <div class="max-w-7xl mx-auto flex items-center justify-between relative px-4 md:px-8 lg:px-32 py-4">
+      <div class="mx-auto flex items-center justify-between relative px-4 md:px-8 lg:px-32 py-4">
 
         <div class="flex gap-2 items-center">
           ${
