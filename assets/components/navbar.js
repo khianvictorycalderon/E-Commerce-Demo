@@ -1,93 +1,121 @@
-function NavBarComponent({ 
-  title = "E-Shop", 
-  image = null, 
-  buttons = [], 
-  buttonsAlignment = "right", 
-  className = "" 
+// --- SVG Icons ---
+const hamburgerSVG = `
+<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <line x1="4" y1="6"  x2="20" y2="6"></line>
+  <line x1="4" y1="12" x2="20" y2="12"></line>
+  <line x1="4" y1="18" x2="20" y2="18"></line>
+</svg>
+`;
+
+const closeSVG = `
+<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <line x1="18" y1="6"  x2="6"  y2="18"></line>
+  <line x1="6"  y1="6"  x2="18" y2="18"></line>
+</svg>
+`;
+
+// --- COMPONENT ---
+function NavBarComponent({
+  title = "E-Shop",
+  image = null,
+  buttons = [],
+  buttonsAlignment = "right",
+  className = ""
 }) {
   let mobileOpen = false;
 
-  // Create navbar container
-  const nav = document.createElement("nav");
-  nav.className = `fixed top-0 left-0 w-full shadow z-50 bg-white ${className}`;
+  // Build buttons HTML
+  const desktopButtonsHTML = buttons
+    .map(
+      (b) => `
+        <button class="px-4 py-2 rounded-xl transition cursor-pointer ${b.className || ""}">
+          ${b.label}
+        </button>
+      `
+    )
+    .join("");
 
-  // Overlay for mobile menu
-  const overlay = document.createElement("div");
-  overlay.className = "fixed inset-0 bg-black/40 z-40 hidden lg:hidden";
-  overlay.onclick = () => toggleMobile(false);
-  document.body.appendChild(overlay);
+  const mobileButtonsHTML = buttons
+    .map(
+      (b) => `
+        <button class="block w-full text-center py-2">
+          ${b.label}
+        </button>
+      `
+    )
+    .join("");
 
-  // Inner container
-  const container = document.createElement("div");
-  container.className = "max-w-7xl mx-auto flex items-center justify-between relative px-4 md:px-8 lg:px-32 py-4";
+  // --- TEMPLATE ---
+  const navbar = `
+    <nav class="fixed top-0 left-0 w-full shadow z-50 bg-white ${className}">
+      <div class="max-w-7xl mx-auto flex items-center justify-between relative px-4 md:px-8 lg:px-32 py-4">
 
-  // Logo & Title
-  const logoDiv = document.createElement("div");
-  logoDiv.className = "flex gap-2 items-center";
+        <div class="flex gap-2 items-center">
+          ${
+            image
+              ? `<img src="${image}" alt="${title} Logo"
+                  class="hidden md:block h-[50px] w-auto my-2" />`
+              : ""
+          }
+          <h1 class="font-bold tracking-tight text-base md:text-lg lg:text-xl">
+            ${title}
+          </h1>
+        </div>
 
-  if (image) {
-    const imgEl = document.createElement("img");
-    imgEl.src = image;
-    imgEl.alt = `${title} Logo`;
-    imgEl.className = "hidden md:block h-[50px] w-auto my-2";
-    logoDiv.appendChild(imgEl);
-  }
+        <div class="hidden lg:flex ${
+          buttonsAlignment === "center"
+            ? "absolute left-1/2 -translate-x-1/2 z-10"
+            : "ml-auto"
+        }">
+          ${desktopButtonsHTML}
+        </div>
 
-  const titleEl = document.createElement("h1");
-  titleEl.className = "my-4 md:my-0 font-bold tracking-tight text-base md:text-lg lg:text-xl";
-  titleEl.textContent = title;
-  logoDiv.appendChild(titleEl);
+        <div class="lg:hidden">
+          <button id="toggleBtn" class="p-2 rounded-lg hover:bg-black/5">
+            ${hamburgerSVG}
+          </button>
+        </div>
+      </div>
 
-  container.appendChild(logoDiv);
+      <div id="mobileMenu" class="lg:hidden mt-2 bg-white pb-4 hidden">
+        ${mobileButtonsHTML}
+      </div>
+    </nav>
 
-  // Desktop buttons
-  const desktopBtns = document.createElement("div");
-  desktopBtns.className = `hidden lg:flex ${buttonsAlignment === "center" ? "absolute left-1/2 -translate-x-1/2 z-10" : "ml-auto"}`;
+    <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+  `;
 
-  buttons.forEach((btn, i) => {
-    const button = document.createElement("button");
-    button.textContent = btn.label;
-    button.className = `px-4 py-2 rounded-xl transition cursor-pointer ${btn.className || ""}`;
-    button.onclick = btn.action;
-    desktopBtns.appendChild(button);
+  // Create wrapper element
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = navbar;
+
+  const nav = wrapper.querySelector("nav");
+  const toggleBtn = wrapper.querySelector("#toggleBtn");
+  const overlay = wrapper.querySelector("#overlay");
+  const mobileMenu = wrapper.querySelector("#mobileMenu");
+
+  // Attach button actions
+  const allButtons = [...nav.querySelectorAll("button")];
+  allButtons.forEach((btn, index) => {
+    if (index < buttons.length) {
+      btn.onclick = () => buttons[index].action();
+    }
   });
 
-  container.appendChild(desktopBtns);
-
-  // Mobile hamburger
-  const mobileBtn = document.createElement("div");
-  mobileBtn.className = "lg:hidden";
-  const toggleBtn = document.createElement("button");
-  toggleBtn.className = "p-2 text-2xl font-bold rounded-lg hover:bg-white/10";
-  toggleBtn.textContent = "☰";
-  toggleBtn.onclick = () => toggleMobile(!mobileOpen);
-  mobileBtn.appendChild(toggleBtn);
-  container.appendChild(mobileBtn);
-
-  nav.appendChild(container);
-
-  // Mobile menu container
-  const mobileMenu = document.createElement("div");
-  mobileMenu.className = "lg:hidden mt-2 bg-inherit text-inherit pb-4 hidden";
-  buttons.forEach((btn, i) => {
-    const button = document.createElement("button");
-    button.className = "block w-full text-center py-2";
-    button.textContent = btn.label;
-    button.onclick = () => {
-      toggleMobile(false);
-      btn.action();
-    };
-    mobileMenu.appendChild(button);
-  });
-  nav.appendChild(mobileMenu);
-
-  // Toggle function
+  // Toggle menu
   function toggleMobile(open) {
     mobileOpen = open;
-    overlay.classList.toggle("hidden", !mobileOpen);
-    mobileMenu.classList.toggle("hidden", !mobileOpen);
-    toggleBtn.textContent = mobileOpen ? "✖" : "☰";
+    overlay.classList.toggle("hidden", !open);
+    mobileMenu.classList.toggle("hidden", !open);
+    toggleBtn.innerHTML = open ? closeSVG : hamburgerSVG;
   }
+
+  toggleBtn.onclick = () => toggleMobile(!mobileOpen);
+  overlay.onclick = () => toggleMobile(false);
 
   return nav;
 }
