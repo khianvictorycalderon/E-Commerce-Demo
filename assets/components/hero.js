@@ -38,7 +38,7 @@ export const HeroComponent = `
 
     <!-- RIGHT IMAGE -->
     <div class="relative flex justify-center lg:justify-end">
-      <div class="rounded-3xl aspect-square max-w-sm sm:max-w-md flex items-center justify-center shadow-inner">
+      <div class="rounded-3xl aspect-square max-w-sm sm:max-w-md flex items-center justify-center">
         <img src="images/kushima.png">
       </div>
 
