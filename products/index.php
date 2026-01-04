@@ -11,7 +11,18 @@
   </head>
   <body>
 
-    <div class="navbar"></div>
+    <?php
+
+        // Mocking data if user is signed in
+        $is_user_signed_in = false;
+
+        // Redirect user to login page if no one is signed in
+        if (!$is_user_signed_in) {
+            header("Location: /login");
+            exit;
+        }
+
+    ?>
 
   </body>
 </html>
