@@ -15,6 +15,7 @@
   <body>
 
     <div class="hero"></div>
+    <div class="about"></div>
 
   </body>
 </html>
