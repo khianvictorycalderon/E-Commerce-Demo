@@ -1,4 +1,5 @@
-// This is the main initiator and entry script of the homepage
+import { HeroComponent } from "./components/hero.js";
+import { NavBarComponent } from "./components/navbar.js";
 
 // Navbar Usage
 document.body.prepend(
@@ -26,3 +27,12 @@ document.body.prepend(
     buttonsAlignment: "right"
   })
 );
+
+// IIFE
+(() => {
+  
+  // Attach hero
+  const hero = document.getElementById("hero");
+  hero.innerHTML = HeroComponent;
+
+})();

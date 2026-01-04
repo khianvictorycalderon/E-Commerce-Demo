@@ -19,7 +19,7 @@ const closeSVG = `
 `;
 
 // --- COMPONENT ---
-function NavBarComponent({
+export function NavBarComponent({
   title = "E-Shop",
   image = null,
   buttons = [],

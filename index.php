@@ -8,14 +8,13 @@
     <script src="assets/tailwind-3.4.17.js"></script>
 
     <!-- Defer scripts -->
-    <script src="assets/components/navbar.js" defer></script>
-    <script src="assets/main.js" defer></script>
+    <script type="module" src="assets/main.js"></script>
     
     <title>E-Commerce Demo</title>
   </head>
   <body>
 
-    <h2>E-Commerce Demo</h2>
+    <div id="hero"></div>
 
   </body>
 </html>
