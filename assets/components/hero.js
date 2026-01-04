@@ -1,7 +1,7 @@
 export const HeroComponent = `
 <section class="relative h-screen flex items-center overflow-hidden bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 text-white">
 
-  <div class="container mx-auto px-6 py-12 lg:py-20 grid gap-12 lg:grid-cols-2 items-center">
+  <div class="container mx-auto px-6 pt-24 pb-12 lg:pt-12 grid gap-12 lg:grid-cols-2 items-center">
 
     <!-- LEFT -->
     <div class="space-y-6 flex flex-col justify-center">
@@ -19,22 +19,9 @@ export const HeroComponent = `
 
       <!-- Subtitle -->
       <p class="text-blue-100 text-lg md:text-xl leading-relaxed max-w-lg">
-        Curated collections, fast checkout, and prices you’ll love. 
+        Curated collections, fast checkout, and prices you'll love. 
         Discover thousands of products trusted by customers worldwide.
       </p>
-
-      <!-- SEARCH -->
-      <div class="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-2xl shadow-sm border border-white/30 px-4 py-2 max-w-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <circle cx="11" cy="11" r="7"></circle>
-          <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
-        </svg>
-        <input
-          type="text"
-          placeholder="Search products…"
-          class="w-full outline-none text-white placeholder-white/70 bg-transparent"
-        />
-      </div>
 
       <!-- CTA Buttons -->
       <div class="flex flex-wrap gap-3">
