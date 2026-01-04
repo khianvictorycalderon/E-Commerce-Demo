@@ -2,7 +2,7 @@
 <html>
   <head>
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/icons/e-commerce-demo.png">
+    <link rel="icon" href="/images/e-commerce-demo.png">
 
     <!-- Tailwind should not be a defer -->
     <script src="assets/tailwind-3.4.17.js"></script>

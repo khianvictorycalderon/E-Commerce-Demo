@@ -6,7 +6,7 @@ import { NavBarComponent } from "./components/navbar.js";
 document.body.prepend(
   NavBarComponent({
     title: "E-Commerce Demo",
-    image: "/icons/e-commerce-demo.png",
+    image: "images/e-commerce-demo.png",
     className: "!bg-gray-50", // fits e-commerce theme
     buttons: [
       { 
