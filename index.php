@@ -15,8 +15,8 @@
   <body>
 
     <div class="hero"></div>
-    <div class="about"></div>
-    <div class="services"></div>
+    <div id="about" class="about"></div>
+    <div id="services" class="services"></div>
 
   </body>
 </html>

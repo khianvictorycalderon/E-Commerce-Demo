@@ -16,9 +16,9 @@ document.body.prepend(
         action: () => window.location.href = "/" 
       },
       { 
-        label: "Shop", 
+        label: "Services", 
         className: "text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200",
-        action: () => window.location.href = "/shop" 
+        action: () => window.location.href = "/#services" 
       },
       { 
         label: "About", 

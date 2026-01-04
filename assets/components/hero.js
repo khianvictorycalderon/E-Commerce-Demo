@@ -28,10 +28,6 @@ export const HeroComponent = `
         <button class="px-5 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium transition">
           Shop Now
         </button>
-
-        <button class="px-5 py-3 rounded-xl border border-white/30 text-white font-medium hover:bg-white/10 transition">
-          View Collections
-        </button>
       </div>
 
     </div>
