@@ -32,6 +32,9 @@ document.body.prepend(
 // IIFE
 (() => {
   
+  // Production alert (will uncomment once the project is finally done)
+  // alert("NOTE: This is a demo website only with frontend and backend functionality but does not represent a real business.");
+
   // Attach hero
   const heroes = document.querySelectorAll(".hero");
   heroes.forEach(hero => {
