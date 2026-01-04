@@ -26,77 +26,58 @@ export function NavBarComponent({
   buttonsAlignment = "right",
   className = ""
 }) {
-  let mobileOpen = false;
-
   // Build buttons HTML
   const desktopButtonsHTML = buttons
     .map(
-      (b) => `
-        <button class="px-4 py-2 rounded-xl transition cursor-pointer ${b.className || ""}">
-          ${b.label}
-        </button>
-      `
+      (b) => `<button class="px-4 py-2 rounded-xl transition cursor-pointer ${b.className || ""}">
+        ${b.label}
+      </button>`
     )
     .join("");
 
   const mobileButtonsHTML = buttons
     .map(
-      (b) => `
-        <button class="block w-full text-center py-2">
-          ${b.label}
-        </button>
-      `
+      (b) => `<button class="block w-full text-center py-2">${b.label}</button>`
     )
     .join("");
 
   // --- TEMPLATE ---
   const navbar = `
-    <nav class="fixed top-0 left-0 w-full shadow z-50 bg-white ${className}">
-      <div class="mx-auto flex items-center justify-between relative px-4 md:px-8 lg:px-32 py-4">
+<nav class="fixed top-0 left-0 w-full shadow z-50 bg-white ${className}">
+  <div class="mx-auto flex items-center justify-between relative px-4 md:px-8 lg:px-32 py-4">
 
-        <div class="flex gap-2 items-center">
-          ${
-            image
-              ? `<img src="${image}" alt="${title} Logo"
-                  class="hidden md:block h-[30px] w-auto my-2" />`
-              : ""
-          }
-          <h1 class="font-bold tracking-tight text-base md:text-lg lg:text-xl">
-            ${title}
-          </h1>
-        </div>
+    <div class="flex gap-2 items-center">
+      ${image ? `<img src="${image}" alt="${title} Logo" class="hidden md:block h-[30px] w-auto my-2" />` : ""}
+      <h1 class="font-bold tracking-tight text-base md:text-lg lg:text-xl">${title}</h1>
+    </div>
 
-        <div class="hidden lg:flex ${
-          buttonsAlignment === "center"
-            ? "absolute left-1/2 -translate-x-1/2 z-10"
-            : "ml-auto"
-        }">
-          ${desktopButtonsHTML}
-        </div>
+    <div class="hidden lg:flex ${buttonsAlignment === "center" ? "absolute left-1/2 -translate-x-1/2 z-10" : "ml-auto"}">
+      ${desktopButtonsHTML}
+    </div>
 
-        <div class="lg:hidden">
-          <button id="toggleBtn" class="p-2 rounded-lg hover:bg-black/5">
-            ${hamburgerSVG}
-          </button>
-        </div>
-      </div>
+    <div class="lg:hidden">
+      <button id="toggleBtn" class="p-2 rounded-lg hover:bg-black/5">${hamburgerSVG}</button>
+    </div>
 
-      <div id="mobileMenu" class="lg:hidden mt-2 bg-white pb-4 hidden">
-        ${mobileButtonsHTML}
-      </div>
-    </nav>
+  </div>
 
-    <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
-  `;
+  <div id="mobileMenu" class="lg:hidden mt-2 bg-white pb-4 hidden">
+    ${mobileButtonsHTML}
+  </div>
+</nav>
 
-  // Create wrapper element
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = navbar;
+<div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+`;
 
-  const nav = wrapper.querySelector("nav");
-  const toggleBtn = wrapper.querySelector("#toggleBtn");
-  const overlay = wrapper.querySelector("#overlay");
-  const mobileMenu = wrapper.querySelector("#mobileMenu");
+  return navbar;
+}
+
+// --- Initialize Mobile Toggle after DOM insertion ---
+export function attachNavBarActions(navbarElement, buttons = []) {
+  const nav = navbarElement.querySelector("nav");
+  const toggleBtn = navbarElement.querySelector("#toggleBtn");
+  const overlay = navbarElement.querySelector("#overlay");
+  const mobileMenu = navbarElement.querySelector("#mobileMenu");
 
   // Attach button actions
   const allButtons = [...nav.querySelectorAll("button")];
@@ -107,15 +88,14 @@ export function NavBarComponent({
   });
 
   // Toggle menu
-  function toggleMobile(open) {
+  let mobileOpen = false;
+  const toggleMobile = (open) => {
     mobileOpen = open;
     overlay.classList.toggle("hidden", !open);
     mobileMenu.classList.toggle("hidden", !open);
     toggleBtn.innerHTML = open ? closeSVG : hamburgerSVG;
-  }
+  };
 
   toggleBtn.onclick = () => toggleMobile(!mobileOpen);
   overlay.onclick = () => toggleMobile(false);
-
-  return nav;
 }

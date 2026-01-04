@@ -1,15 +1,15 @@
+import { NavBarComponent, attachNavBarActions } from "./components/navbar.js";
 import { AboutComponent } from "./components/about.js";
 import { FooterComponent } from "./components/footer.js";
 import { HeroComponent } from "./components/hero.js";
-import { NavBarComponent } from "./components/navbar.js";
 import { ServicesComponent } from "./components/services.js";
 
-// Navbar Usage
-document.body.prepend(
-  NavBarComponent({
+// Fill all navbar containers
+document.querySelectorAll(".navbar").forEach(navbarEl => {
+  navbarEl.innerHTML = NavBarComponent({
     title: "E-Commerce Demo",
     image: "images/e-commerce-demo.png",
-    className: "!bg-gray-50", // fits e-commerce theme
+    className: "!bg-gray-50",
     buttons: [
       { 
         label: "Home", 
@@ -28,8 +28,24 @@ document.body.prepend(
       },
     ],
     buttonsAlignment: "right"
-  })
-);
+  });
+
+  // Attach mobile toggle & button actions
+  attachNavBarActions(navbarEl, [
+    { 
+      label: "Home", 
+      action: () => window.location.href = "/" 
+    },
+    { 
+      label: "Services", 
+      action: () => window.location.href = "/#services" 
+    },
+    { 
+      label: "About", 
+      action: () => window.location.href = "/#about"
+    },
+  ]);
+});
 
 // IIFE
 (() => {
