@@ -32,7 +32,9 @@ document.body.prepend(
 (() => {
   
   // Attach hero
-  const hero = document.getElementById("hero");
-  hero.innerHTML = HeroComponent;
-
+  const heroes = document.querySelectorAll(".hero");
+  heroes.forEach(hero => {
+    hero.innerHTML = HeroComponent;
+  });
+  
 })();

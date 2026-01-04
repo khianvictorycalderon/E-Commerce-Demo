@@ -14,7 +14,7 @@
   </head>
   <body>
 
-    <div id="hero"></div>
+    <div class="hero"></div>
 
   </body>
 </html>
