@@ -29,7 +29,7 @@ export const HeroComponent = `
 
       <!-- CTA Buttons -->
       <div class="flex flex-wrap gap-3">
-        <a href="${CTALinks[0]}" class="px-5 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium transition">
+        <a href="${CTALinks[0]}" title="Browse Products" class="px-5 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-medium transition">
           Shop Now
         </a>
       </div>
