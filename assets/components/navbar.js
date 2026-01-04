@@ -58,7 +58,7 @@ export function NavBarComponent({
           ${
             image
               ? `<img src="${image}" alt="${title} Logo"
-                  class="hidden md:block h-[50px] w-auto my-2" />`
+                  class="hidden md:block h-[30px] w-auto my-2" />`
               : ""
           }
           <h1 class="font-bold tracking-tight text-base md:text-lg lg:text-xl">
