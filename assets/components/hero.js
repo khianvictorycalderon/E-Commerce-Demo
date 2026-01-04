@@ -1,7 +1,7 @@
 export const HeroComponent = `
-<section class="relative h-screen flex items-center overflow-hidden bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 text-white">
+<section class="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 text-white">
 
-  <div class="container mx-auto px-6 pt-24 pb-12 lg:pt-12 grid gap-12 lg:grid-cols-2 items-center">
+  <div class="container mx-auto px-6 pt-32 pb-12 lg:pt-12 grid gap-12 lg:grid-cols-2 items-center">
 
     <!-- LEFT -->
     <div class="space-y-6 flex flex-col justify-center">
