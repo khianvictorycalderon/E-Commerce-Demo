@@ -21,7 +21,7 @@ document.body.prepend(
       { 
         label: "About", 
         className: "text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200",
-        action: () => window.location.href = "/about" 
+        action: () => window.location.href = "/#about"
       },
     ],
     buttonsAlignment: "right"
