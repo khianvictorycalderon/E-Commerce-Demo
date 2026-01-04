@@ -1,3 +1,5 @@
+// This file contains utility functions across all pages in the website
+
 export const slideTo = (id, offset = 0) => {
   const element = document.getElementById(id);
   if (element) {
