@@ -1,6 +1,7 @@
 import { AboutComponent } from "./components/about.js";
 import { HeroComponent } from "./components/hero.js";
 import { NavBarComponent } from "./components/navbar.js";
+import { ServicesComponent } from "./components/services.js";
 
 // Navbar Usage
 document.body.prepend(
@@ -45,6 +46,12 @@ document.body.prepend(
   const abouts = document.querySelectorAll(".about");
   abouts.forEach(about => {
     about.innerHTML = AboutComponent;
+  });
+
+  // Attach about
+  const services = document.querySelectorAll(".services");
+  services.forEach(service => {
+    service.innerHTML = ServicesComponent;
   });
   
 })();
