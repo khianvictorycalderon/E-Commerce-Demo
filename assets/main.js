@@ -1,4 +1,5 @@
 import { AboutComponent } from "./components/about.js";
+import { FooterComponent } from "./components/footer.js";
 import { HeroComponent } from "./components/hero.js";
 import { NavBarComponent } from "./components/navbar.js";
 import { ServicesComponent } from "./components/services.js";
@@ -52,6 +53,12 @@ document.body.prepend(
   const services = document.querySelectorAll(".services");
   services.forEach(service => {
     service.innerHTML = ServicesComponent;
+  });
+
+  // Attach footer
+  const footers = document.querySelectorAll(".footer");
+  footers.forEach(footer => {
+    footer.innerHTML = FooterComponent;
   });
   
 })();

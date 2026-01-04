@@ -17,6 +17,7 @@
     <div class="hero"></div>
     <div id="about" class="about"></div>
     <div id="services" class="services"></div>
+    <div class="footer"></div>
 
   </body>
 </html>
