@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
+
+    <!-- For SEO -->
+    <meta name="description" content="Shop now at our fictional store with the best e-commerce simulation experience!" />
+  	<meta name="keywords" content="e-commerce, demo, e-commerce demo" />
+  	<meta property="og:title" content="E-Commerce Demo">
+    <meta property="og:description" content="Shop now at our fictional store with the best e-commerce simulation experience!">
+    <meta property="og:image" content="images/preview.png"> 
+	
+    <!-- Forces the browser to load the latest version of this website -->
+  	<meta http-equiv='cache-control' content='no-cache'> 
+    <meta http-equiv='expires' content='0'> 
+    <meta http-equiv='pragma' content='no-cache'>
+
+    <!-- Misc -->
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/images/e-commerce-demo.png">
 
