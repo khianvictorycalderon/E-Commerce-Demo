@@ -1,3 +1,7 @@
+const CTALinks = [
+  "/products"
+];
+
 export const HeroComponent = `
 <section class="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 text-white">
 
@@ -25,9 +29,9 @@ export const HeroComponent = `
 
       <!-- CTA Buttons -->
       <div class="flex flex-wrap gap-3">
-        <button class="px-5 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium transition">
+        <a href="${CTALinks[0]}" class="px-5 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium transition">
           Shop Now
-        </button>
+        </a>
       </div>
 
     </div>
