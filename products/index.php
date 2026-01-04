@@ -11,5 +11,7 @@
   </head>
   <body>
 
+    <div class="navbar"></div>
+
   </body>
 </html>

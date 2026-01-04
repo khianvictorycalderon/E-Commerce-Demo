@@ -8,7 +8,7 @@ import { ServicesComponent } from "./components/services.js";
 document.querySelectorAll(".navbar").forEach(navbarEl => {
   navbarEl.innerHTML = NavBarComponent({
     title: "E-Commerce Demo",
-    image: "images/e-commerce-demo.png",
+    image: "/images/e-commerce-demo.png",
     className: "!bg-gray-50",
     buttons: [
       { 
