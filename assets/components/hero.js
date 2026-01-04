@@ -38,8 +38,8 @@ export const HeroComponent = `
 
     <!-- RIGHT IMAGE -->
     <div class="relative flex justify-center lg:justify-end">
-      <div class="rounded-3xl bg-white/10 backdrop-blur-lg aspect-square max-w-sm sm:max-w-md flex items-center justify-center shadow-inner">
-        <span class="text-white/50">Product Image / Banner</span>
+      <div class="rounded-3xl aspect-square max-w-sm sm:max-w-md flex items-center justify-center shadow-inner">
+        <img src="images/kushima.png">
       </div>
 
       <div class="absolute -bottom-4 -right-4 bg-white/20 shadow-xl rounded-2xl px-5 py-3 flex items-center gap-3 border border-white/30">
