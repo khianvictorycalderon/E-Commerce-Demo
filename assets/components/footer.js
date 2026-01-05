@@ -48,25 +48,16 @@ export const FooterComponent = `
         </ul>
       </div>
 
-      <!-- Contact -->
+      <!-- Reference -->
       <div class="space-y-4">
-        <h3 class="text-lg font-semibold">Contact Us</h3>
-        <address class="not-italic text-gray-400">
-          <p>123 Business Ave</p>
-          <p>San Francisco, CA 94107</p>
-          <p class="mt-2">
-            Email:
-            <a href="mailto:info@company.com" class="hover:text-white transition">
-              info@company.com
+        <h3 class="text-lg font-semibold">Reference</h3>
+        <span class="not-italic text-gray-400">
+          <p class="space-y-0 mt-4">
+            <a href="https://github.com/khianvictorycalderon/E-Commerce-Dem" target="_blank" title="Project GitHub Source Code">
+              Project Source Code
             </a>
           </p>
-          <p>
-            Phone:
-            <a href="tel:+11234567890" class="hover:text-white transition">
-              +1 (123) 456-7890
-            </a>
-          </p>
-        </address>
+        </span>
       </div>
 
     </div>
