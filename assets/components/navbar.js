@@ -29,15 +29,20 @@ export function NavBarComponent({
   // Build buttons HTML
   const desktopButtonsHTML = buttons
     .map(
-      (b) => `<button class="px-4 py-2 rounded-xl transition cursor-pointer ${b.className || ""}">
-        ${b.label}
-      </button>`
+      (b, i) => `
+        <button data-btn="${i}"
+          class="px-4 py-2 rounded-xl transition cursor-pointer ${b.className || ""}">
+          ${b.label}
+        </button>`
     )
     .join("");
 
   const mobileButtonsHTML = buttons
     .map(
-      (b) => `<button class="block w-full text-center py-2">${b.label}</button>`
+      (b, i) => `
+        <button data-btn="${i}" class="block w-full text-center py-2">
+          ${b.label}
+        </button>`
     )
     .join("");
 
@@ -51,12 +56,16 @@ export function NavBarComponent({
       <h1 class="font-bold tracking-tight text-base md:text-lg lg:text-xl">${title}</h1>
     </div>
 
-    <div class="hidden lg:flex ${buttonsAlignment === "center" ? "absolute left-1/2 -translate-x-1/2 z-10" : "ml-auto"}">
+    <div class="hidden lg:flex ${buttonsAlignment === "center"
+      ? "absolute left-1/2 -translate-x-1/2 z-10"
+      : "ml-auto"}">
       ${desktopButtonsHTML}
     </div>
 
     <div class="lg:hidden">
-      <button id="toggleBtn" class="p-2 rounded-lg hover:bg-black/5">${hamburgerSVG}</button>
+      <button id="toggleBtn" class="p-2 rounded-lg hover:bg-black/5">
+        ${hamburgerSVG}
+      </button>
     </div>
 
   </div>
@@ -74,26 +83,34 @@ export function NavBarComponent({
 
 // --- Initialize Mobile Toggle after DOM insertion ---
 export function attachNavBarActions(navbarElement, buttons = []) {
-  const nav = navbarElement.querySelector("nav");
   const toggleBtn = navbarElement.querySelector("#toggleBtn");
   const overlay = navbarElement.querySelector("#overlay");
   const mobileMenu = navbarElement.querySelector("#mobileMenu");
 
-  // Attach button actions
-  const allButtons = [...nav.querySelectorAll("button")];
-  allButtons.forEach((btn, index) => {
-    if (index < buttons.length) {
-      btn.onclick = () => buttons[index].action();
-    }
+  // Attach button actions (desktop + mobile)
+  const menuButtons = navbarElement.querySelectorAll("[data-btn]");
+
+  menuButtons.forEach((btn) => {
+    const i = btn.getAttribute("data-btn");
+    btn.onclick = () => {
+      buttons[i]?.action?.();
+
+      // Close mobile menu when clicking mobile items
+      if (window.innerWidth < 1024) toggleMobile(false);
+    };
   });
 
   // Toggle menu
   let mobileOpen = false;
+
   const toggleMobile = (open) => {
     mobileOpen = open;
     overlay.classList.toggle("hidden", !open);
     mobileMenu.classList.toggle("hidden", !open);
     toggleBtn.innerHTML = open ? closeSVG : hamburgerSVG;
+
+    // Prevent page scroll when menu open (nice UX)
+    document.body.style.overflow = open ? "hidden" : "";
   };
 
   toggleBtn.onclick = () => toggleMobile(!mobileOpen);
