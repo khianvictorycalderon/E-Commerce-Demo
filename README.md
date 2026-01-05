@@ -48,3 +48,10 @@ I recommend using XAMPP as it comes with built-in Apache for PHP and MySQL Serve
     ```
 5. Go to your browser and run `localhost/e-commerce-demo`
 6. Enjoy!
+
+## Note
+This project uses the philosophy of:
+- Maximum Front-End UI & UX
+- Minimum Back-End functionality (but still secure enough for production)
+
+And the project's main color theme is `Blue`
