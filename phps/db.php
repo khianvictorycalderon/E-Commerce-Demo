@@ -1,6 +1,7 @@
 <?php
 
 // --- Fixed DB credentials ---
+// For production, this is to be change on CPanel
 $db_host = "localhost";
 $db_user = "root";
 $db_pass = "";
