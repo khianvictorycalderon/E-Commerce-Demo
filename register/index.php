@@ -1,39 +1,66 @@
 <?php
-session_start();
+    session_start();
+    require_once("../phps/db.php"); // include your transactionalMySQLQuery()
 
-// If already logged in → redirect to products
-if (isset($_SESSION["user_id"])) {
-    header("Location: /products/");
-    exit();
-}
-
-// Server-side form submission handling
-$errors = [];
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Capture POST variables
-    $first_name = trim($_POST["first_name"] ?? "");
-    $last_name  = trim($_POST["last_name"] ?? "");
-    $birth_date = trim($_POST["birth_date"] ?? "");
-    $username   = trim($_POST["username"] ?? "");
-    $password   = trim($_POST["password"] ?? "");
-    $confirm_password = trim($_POST["confirm_password"] ?? "");
-
-    // Basic server-side validation
-    if (!$first_name) $errors[] = "First name is required.";
-    if (!$last_name) $errors[]  = "Last name is required.";
-    if (!$birth_date) $errors[] = "Birth date is required.";
-    if (!$username) $errors[]   = "Username is required.";
-    if (!$password) $errors[]   = "Password is required.";
-    if ($password !== $confirm_password) $errors[] = "Passwords do not match.";
-
-    // If no errors, you can implement database logic here
-    if (empty($errors)) {
-        // Example: prepare variables for DB insertion
-        // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        // INSERT INTO users (first_name, last_name, birth_date, username, password) VALUES ...
+    // If already logged in → redirect to products
+    if (isset($_SESSION["user_id"])) {
+        header("Location: /products/");
+        exit();
     }
-}
+
+    // Server-side form submission handling
+    $errors = [];
+    $success = false;
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Capture POST variables
+        $first_name = trim($_POST["first_name"] ?? "");
+        $last_name  = trim($_POST["last_name"] ?? "");
+        $birth_date = trim($_POST["birth_date"] ?? "");
+        $username   = trim($_POST["username"] ?? "");
+        $password   = trim($_POST["password"] ?? "");
+        $confirm_password = trim($_POST["confirm_password"] ?? "");
+
+        // Basic server-side validation
+        if (!$first_name) $errors[] = "First name is required.";
+        if (!$last_name)  $errors[] = "Last name is required.";
+        if (!$birth_date) $errors[] = "Birth date is required.";
+        if (!$username)   $errors[] = "Username is required.";
+        if (!$password)   $errors[] = "Password is required.";
+        if ($password !== $confirm_password) $errors[] = "Passwords do not match.";
+
+        if (empty($errors)) {
+            // --- Auto-create table if not exists ---
+            $createTableQuery = "
+                CREATE TABLE IF NOT EXISTS users (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    first_name VARCHAR(50) NOT NULL,
+                    last_name VARCHAR(50) NOT NULL,
+                    birth_date DATE NOT NULL,
+                    username VARCHAR(50) NOT NULL UNIQUE,
+                    password VARCHAR(255) NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+            ";
+            $tableResult = transactionalMySQLQuery($createTableQuery);
+            if (is_string($tableResult)) {
+                $errors[] = "DB Error: " . $tableResult;
+            } else {
+                // --- Insert new user ---
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                $insertQuery = "INSERT INTO users (first_name, last_name, birth_date, username, password) VALUES (?, ?, ?, ?, ?)";
+                $insertResult = transactionalMySQLQuery($insertQuery, [$first_name, $last_name, $birth_date, $username, $hashed_password]);
+
+                if ($insertResult === true) {
+                    $success = true;
+                } else {
+                    $errors[] = "DB Error: " . $insertResult;
+                }
+            }
+        }
+    }
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -122,6 +149,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     >
                         Register
                     </button>
+
+                    <?php if ($success): ?>
+                        <div class="bg-green-100 text-green-700 p-3 rounded-lg text-sm">
+                            Registration successful! You can now <a href="/login" class="text-blue-600 underline">login</a>.
+                        </div>
+                    <?php endif; ?>
+
 
                     <p class="text-center text-gray-500 text-sm mt-2">
                         Already have an account? 
