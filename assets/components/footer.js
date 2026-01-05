@@ -53,7 +53,7 @@ export const FooterComponent = `
         <h3 class="text-lg font-semibold">Reference</h3>
         <span class="not-italic text-gray-400">
           <p class="space-y-0 mt-4">
-            <a href="https://github.com/khianvictorycalderon/E-Commerce-Dem" target="_blank" title="Project GitHub Source Code">
+            <a href="https://github.com/khianvictorycalderon/E-Commerce-Demo" target="_blank" title="Project GitHub Source Code">
               Project Source Code
             </a>
           </p>
