@@ -6,12 +6,13 @@ $db_host = "localhost";
 $db_user = "root";
 $db_pass = "";
 $db_name = "e_commerce_demo_db";
+$db_port = 3307;
 
 function transactionalMySQLQuery(string $query, array $params = []) {
-    global $db_host, $db_user, $db_pass, $db_name;
+    global $db_host, $db_user, $db_pass, $db_name, $db_port;
 
     // Open connection
-    $mysqli = new mysqli($db_host, $db_user, $db_pass, $db_name);
+    $mysqli = new mysqli($db_host, $db_user, $db_pass, $db_name, $db_port);
     if ($mysqli->connect_errno) {
         return "Connection failed: " . $mysqli->connect_error;
     }
