@@ -21,7 +21,7 @@ $signed_user = $_SESSION["user_id"];
   </head>
   <body class="bg-gray-50 min-h-screen">
 
-      <div class="products-navbar"></div>
+      <div class="logged-navbar"></div>
 
       <!-- Page Header -->
       <header class="bg-blue-600 text-white pt-32 pb-16">

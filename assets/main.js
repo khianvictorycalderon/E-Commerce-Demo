@@ -47,7 +47,7 @@ document.querySelectorAll(".navbar").forEach(navbarEl => {
   ]);
 });
 
-document.querySelectorAll(".products-navbar").forEach(navbarEl => {
+document.querySelectorAll(".logged-navbar").forEach(navbarEl => {
   const productsButtons = [
     { 
       label: "Home", 
