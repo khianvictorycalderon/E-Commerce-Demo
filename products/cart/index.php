@@ -88,9 +88,6 @@ if (is_string($cart_items)) die("DB Error: ".$cart_items);
                     <a href="./checkout" class="px-4 py-2 rounded-xl bg-green-600 text-white hover:bg-green-500 transition">
                         Checkout
                     </a>
-                    <a href="/products" class="px-4 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 transition">
-                        Continue Shopping
-                    </a>
                 </div>
             </div>
         <?php else: ?>
