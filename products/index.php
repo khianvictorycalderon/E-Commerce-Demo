@@ -12,15 +12,15 @@
   <body>
 
     <?php
+    
+        session_start();
 
-        // Mocking data if user is signed in
-        $is_user_signed_in = false;
-
-        // Redirect user to login page if no one is signed in
-        if (!$is_user_signed_in) {
-            header("Location: /login");
-            exit;
+        if (!isset($_SESSION["user_id"])) {
+            header("Location: /login.php");
+            exit();
         }
+
+        $signed_user = $_SESSION["user_id"];
 
     ?>
 
