@@ -1,6 +1,7 @@
 <?php
     session_start();
     require_once("../phps/db.php"); // include your transactionalMySQLQuery()
+    require_once("../phps/tables.php") // All table schemas so it is unified
 
     // If already logged in → redirect to products
     if (isset($_SESSION["user_id"])) {
@@ -58,18 +59,7 @@
 
         if (empty($errors)) {
         // --- Auto-create table if not exists ---
-        $createTableQuery = "
-            CREATE TABLE IF NOT EXISTS users (
-                id VARCHAR(200) PRIMARY KEY,
-                first_name VARCHAR(50) NOT NULL,
-                last_name VARCHAR(50) NOT NULL,
-                birth_date DATE NOT NULL,
-                username VARCHAR(50) NOT NULL UNIQUE,
-                password VARCHAR(255) NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-        ";
-        $tableResult = transactionalMySQLQuery($createTableQuery);
+        $tableResult = transactionalMySQLQuery($userTableQuery);
         if (is_string($tableResult)) {
             $errors[] = "DB Error: " . $tableResult;
         } else {
@@ -86,7 +76,15 @@
             } else {
                 // --- Insert new user ---
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $user_id = generate_uuid_v4_manual(); // generate UUID
+
+                // Generate a unique UUID
+                do {
+                    $user_id = generate_uuid_v4_manual();
+                    $existing_id = transactionalMySQLQuery(
+                        "SELECT id FROM users WHERE id = ?",
+                        [$user_id]
+                    );
+                } while (!empty($existing_id));
 
                 $insertQuery = "INSERT INTO users (id, first_name, last_name, birth_date, username, password) VALUES (?, ?, ?, ?, ?, ?)";
                 $insertResult = transactionalMySQLQuery($insertQuery, [$user_id, $first_name, $last_name, $birth_date, $username, $hashed_password]);
@@ -96,6 +94,7 @@
                 } else {
                     $errors[] = "DB Error: " . $insertResult;
                 }
+
             }
         }
     }

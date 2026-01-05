@@ -1,6 +1,7 @@
 <?php
     session_start();
     require_once("../phps/db.php"); // include your transactionalMySQLQuery()
+    require_once("../phps/tables.php") // All table schemas so it is unified
 
     // If already logged in → redirect to products
     if (isset($_SESSION["user_id"])) {
@@ -9,18 +10,7 @@
     }
 
     // --- Auto-create users table if it doesn't exist ---
-    $createTableQuery = "
-        CREATE TABLE IF NOT EXISTS users (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            first_name VARCHAR(50) NOT NULL,
-            last_name VARCHAR(50) NOT NULL,
-            birth_date DATE NOT NULL,
-            username VARCHAR(50) NOT NULL UNIQUE,
-            password VARCHAR(255) NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-    ";
-    $tableResult = transactionalMySQLQuery($createTableQuery);
+    $tableResult = transactionalMySQLQuery($userTableQuery);
     if (is_string($tableResult)) {
         die("DB Error: " . $tableResult);
     }
