@@ -6,7 +6,7 @@ $db_host = "localhost";
 $db_user = "root";
 $db_pass = "";
 $db_name = "e_commerce_demo_db";
-$db_port = 3307;
+$db_port = 3306;
 
 function transactionalMySQLQuery(string $query, array $params = []) {
     global $db_host, $db_user, $db_pass, $db_name, $db_port;
