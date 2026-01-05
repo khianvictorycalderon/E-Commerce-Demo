@@ -55,14 +55,14 @@ document.querySelectorAll(".logged-navbar").forEach(navbarEl => {
       action: () => window.location.href = "/" 
     },
     { 
+      label: "Products", 
+      className: "text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200",
+      action: () => window.location.href = "/products" 
+    },
+    { 
       label: "Cart", 
       className: "text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200",
       action: () => window.location.href = "/products/cart" 
-    },
-    { 
-      label: "Orders", 
-      className: "text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200",
-      action: () => window.location.href = "/products/orders" 
     },
     { 
       label: "Account", 
