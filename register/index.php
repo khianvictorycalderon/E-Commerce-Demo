@@ -8,6 +8,16 @@
         exit();
     }
 
+    function generate_uuid_v4() {
+        return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0x0fff) | 0x4000,   // version 4
+            mt_rand(0, 0x3fff) | 0x8000,   // variant
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+        );
+    }
+
     // Server-side form submission handling
     $errors = [];
     $success = false;
@@ -33,7 +43,7 @@
         // --- Auto-create table if not exists ---
         $createTableQuery = "
             CREATE TABLE IF NOT EXISTS users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
+                id CHAR(36) PRIMARY KEY,
                 first_name VARCHAR(50) NOT NULL,
                 last_name VARCHAR(50) NOT NULL,
                 birth_date DATE NOT NULL,
@@ -59,8 +69,10 @@
             } else {
                 // --- Insert new user ---
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $insertQuery = "INSERT INTO users (first_name, last_name, birth_date, username, password) VALUES (?, ?, ?, ?, ?)";
-                $insertResult = transactionalMySQLQuery($insertQuery, [$first_name, $last_name, $birth_date, $username, $hashed_password]);
+                $user_id = generate_uuid_v4(); // generate UUID
+
+                $insertQuery = "INSERT INTO users (id, first_name, last_name, birth_date, username, password) VALUES (?, ?, ?, ?, ?, ?)";
+                $insertResult = transactionalMySQLQuery($insertQuery, [$user_id, $first_name, $last_name, $birth_date, $username, $hashed_password]);
 
                 if ($insertResult === true) {
                     $success = true;
