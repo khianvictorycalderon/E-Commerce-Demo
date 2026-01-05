@@ -71,6 +71,15 @@ if (isset($_SESSION["user_id"])) {
                 >
                 Login
                 </button>
+
+                <!-- Register Link -->
+                <p class="text-center text-gray-500 text-sm mt-2">
+                    No account? 
+                    <a href="/register" class="text-blue-600 hover:text-blue-500 font-medium transition">
+                        Register
+                    </a>
+                </p>
+
             </form>
 
             <p class="text-center text-gray-500 text-xs">
