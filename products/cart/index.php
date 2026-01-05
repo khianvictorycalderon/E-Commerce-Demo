@@ -44,13 +44,13 @@ if (is_string($cart_items)) die("DB Error: ".$cart_items);
         <title>Your Cart</title>
         <link rel="icon" href="/images/e-commerce-demo.png">
         <script src="/assets/tailwind-3.4.17.js"></script>
-        <script src="/assets/main.js"></script>
+        <script type="module" src="/assets/main.js"></script>
     </head>
     <body class="bg-gray-50 min-h-screen">
 
     <div class="logged-navbar"></div>
 
-    <div class="container mx-auto px-4 pt-32 pb-16">
+    <div class="container mx-auto px-4 pt-32 pb-16 min-h-screen">
 
         <?php if($message): ?>
             <div class="bg-green-100 text-green-700 p-3 rounded-lg mb-4"><?= htmlspecialchars($message) ?></div>
@@ -85,7 +85,7 @@ if (is_string($cart_items)) die("DB Error: ".$cart_items);
                 <div class="flex justify-end font-bold text-lg">Total: $<?= number_format($total,2) ?></div>
 
                 <div class="flex justify-end mt-4 gap-2">
-                    <a href="/checkout" class="px-4 py-2 rounded-xl bg-green-600 text-white hover:bg-green-500 transition">
+                    <a href="./checkout" class="px-4 py-2 rounded-xl bg-green-600 text-white hover:bg-green-500 transition">
                         Checkout
                     </a>
                     <a href="/products" class="px-4 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 transition">
@@ -99,7 +99,7 @@ if (is_string($cart_items)) die("DB Error: ".$cart_items);
 
     </div>
 
-    <div class="footer mt-16"></div>
+    <div class="footer"></div>
 
     </body>
 </html>
