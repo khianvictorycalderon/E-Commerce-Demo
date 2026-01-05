@@ -21,27 +21,30 @@ I recommend using XAMPP as it comes with built-in Apache for PHP and MySQL Serve
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
+    TRUNCATE TABLE products;
+
     INSERT INTO products (id, name, description, price, image) VALUES
-    ('11111111-aaaa-bbbb-cccc-000000000001', 'Smartphone Pro', 'Latest 5G smartphone', 799.99, 'https://images.pexels.com/photos/1000467/pexels-photo-1000467.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000002', 'Wireless Headphones', 'Noise-cancelling over ear headphones', 199.99, 'https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000003', '4K Monitor', '27″ Ultra HD display', 349.99, 'https://images.pexels.com/photos/1092671/pexels-photo-1092671.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000004', 'Modern Sofa', 'Comfortable living room sofa', 499.99, 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000005', 'Wooden Dining Set', 'Dining table with 4 chairs', 299.99, 'https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000006', 'Minimalist Lamp', 'Decorative LED lamp', 59.99, 'https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000007', 'Coffee Maker', '12-cup programmable coffee maker', 89.99, 'https://images.pexels.com/photos/298842/pexels-photo-298842.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000008', 'Blender', 'High-speed kitchen blender', 69.99, 'https://images.pexels.com/photos/159320/white-modern-house-kitchen-appliances-159320.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000009', 'Air Purifier', 'HEPA air purifier', 129.99, 'https://images.pexels.com/photos/329990/pexels-photo-329990.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000010', 'Leather Jacket', 'Stylish genuine leather jacket', 149.99, 'https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000011', 'Sneakers', 'Comfortable casual sneakers', 89.99, 'https://images.pexels.com/photos/2983467/pexels-photo-2983467.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000012', 'Watch', 'Classic wristwatch for all occasions', 129.99, 'https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000013', 'Sunglasses', 'UV-protection stylish sunglasses', 59.99, 'https://images.pexels.com/photos/267320/pexels-photo-267320.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000014', 'Backpack', 'Durable travel backpack', 69.99, 'https://images.pexels.com/photos/769289/pexels-photo-769289.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000015', 'Smartwatch', 'Track fitness and notifications', 199.99, 'https://images.pexels.com/photos/1089438/pexels-photo-1089438.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000016', 'Wireless Mouse', 'Ergonomic Bluetooth mouse', 39.99, 'https://images.pexels.com/photos/374074/pexels-photo-374074.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000017', 'Office Chair', 'Comfortable ergonomic chair', 149.99, 'https://images.pexels.com/photos/776656/pexels-photo-776656.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000018', 'Coffee Table', 'Modern wooden coffee table', 89.99, 'https://images.pexels.com/photos/279616/pexels-photo-279616.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000019', 'Yoga Mat', 'Eco-friendly non-slip mat', 29.99, 'https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg'),
-    ('11111111-aaaa-bbbb-cccc-000000000020', 'Indoor Plant', 'Air-purifying indoor plant', 24.99, 'https://images.pexels.com/photos/298864/pexels-photo-298864.jpeg');
+    -- Appliances
+    ('c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f', 'Smart Espresso Machine', 'Programmable coffee maker with built-in grinder.', 599.00, 'https://images.unsplash.com/photo-1520970014086-2208d157c9e2'),
+    
+    -- Plants
+    ('f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c', 'Monstera Deliciosa', 'Large, healthy Swiss Cheese Plant in a ceramic pot.', 35.00, 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b'),
+
+    -- Jackets & Apparel
+    ('2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f', 'Classic Denim Jacket', 'Rugged blue denim with a vintage wash.', 89.00, 'https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9'),
+    ('3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a', 'Waterproof Rain Parka', 'Breathable, windproof jacket for outdoor adventures.', 110.00, 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea'),
+    ('4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b', 'Heavyweight Cotton Hoodie', 'Essential oversized fit in charcoal grey.', 55.00, 'https://images.unsplash.com/photo-1556821840-3a63f95609a7'),
+    ('5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c', 'Graphic Tee - Cyberpunk', '100% organic cotton with custom neon print.', 32.00, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab'),
+
+    -- Shoes
+    ('6a7b8c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d', 'Urban Canvas Sneakers', 'Lightweight everyday shoes with vulcanized soles.', 65.00, 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77'),
+    ('7b8c9d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e', 'Performance Running Shoes', 'Engineered mesh with high-rebound cushioning.', 145.00, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff'),
+    ('8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f', 'Leather Chelsea Boots', 'Handcrafted genuine leather boots with elastic sides.', 185.00, 'https://images.unsplash.com/photo-1638247025967-b4e38f787b76'),
+
+    -- Lifestyle & Others
+    ('9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4g', 'Minimalist Analog Watch', 'Stainless steel casing with a brown leather strap.', 120.00, 'https://images.unsplash.com/photo-1524592094714-0f0654e20314'),
+    ('1f2a3b4c-5d6e-7f8a-9b0c-1d2e3f4g5h6i', 'Aromatic Soy Candle', 'Hand-poured candle with scents of sandalwood.', 22.00, 'https://images.unsplash.com/photo-1603006905003-be475563bc59'),
+    ('2a3b4c5d-6e7f-8a9b-0c1d-2e3f4g5h6i7j', 'Canvas Travel Backpack', 'Water-resistant fabric with a 15-inch laptop sleeve.', 75.00, 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62');
     ```
 5. Go to your browser and run `localhost/e-commerce-demo`
 6. Enjoy!
