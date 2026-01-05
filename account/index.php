@@ -105,6 +105,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_account"])) {
         <link rel="icon" href="/images/e-commerce-demo.png">
         <script src="/assets/tailwind-3.4.17.js"></script>
         <script type="module" src="/assets/main.js"></script>
+
+        <!-- Forces the browser to load the latest version of this website -->
+        <meta http-equiv='cache-control' content='no-cache'> 
+        <meta http-equiv='expires' content='0'> 
+        <meta http-equiv='pragma' content='no-cache'>
+
     </head>
     <body class="bg-gray-50 min-h-screen">
 
