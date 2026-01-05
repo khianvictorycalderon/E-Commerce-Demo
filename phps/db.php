@@ -2,9 +2,9 @@
 
 // --- Fixed DB credentials ---
 $db_host = "localhost";
-$db_user = "your_db_user";
-$db_pass = "your_db_password";
-$db_name = "your_db_name";
+$db_user = "root";
+$db_pass = "";
+$db_name = "e_commerce_demo_db";
 
 function transactionalMySQLQuery(string $query, array $params = []) {
     global $db_host, $db_user, $db_pass, $db_name;
