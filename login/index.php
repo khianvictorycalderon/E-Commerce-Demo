@@ -1,7 +1,7 @@
 <?php
     session_start();
     require_once("../phps/db.php"); // include your transactionalMySQLQuery()
-    require_once("../phps/tables.php") // All table schemas so it is unified
+    require_once("../phps/tables.php"); // All table schemas so it is unified
 
     // If already logged in → redirect to products
     if (isset($_SESSION["user_id"])) {
