@@ -47,6 +47,51 @@ document.querySelectorAll(".navbar").forEach(navbarEl => {
   ]);
 });
 
+document.querySelectorAll(".products-navbar").forEach(navbarEl => {
+  const productsButtons = [
+    { 
+      label: "Home", 
+      className: "text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200",
+      action: () => window.location.href = "/" 
+    },
+    { 
+      label: "Cart", 
+      className: "text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200",
+      action: () => window.location.href = "/products/cart" 
+    },
+    { 
+      label: "Orders", 
+      className: "text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200",
+      action: () => window.location.href = "/products/orders" 
+    },
+    { 
+      label: "Account", 
+      className: "text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200",
+      action: () => window.location.href = "/account" 
+    },
+    { 
+      label: "Log Out", 
+      className: "text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200",
+      action: () => {
+        // Optional: clear session via PHP endpoint
+        fetch("/phps/logout.php").then(() => {
+          window.location.href = "/login";
+        });
+      }
+    }
+  ];
+
+  navbarEl.innerHTML = NavBarComponent({
+    title: "Browse Products",
+    className: "!bg-gray-50",
+    buttons: productsButtons,
+    buttonsAlignment: "right"
+  });
+
+  // Attach mobile toggle & button actions (must match buttons)
+  attachNavBarActions(navbarEl, productsButtons);
+});
+
 // IIFE
 (() => {
   

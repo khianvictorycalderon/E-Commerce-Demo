@@ -21,8 +21,10 @@ $signed_user = $_SESSION["user_id"];
   </head>
   <body class="bg-gray-50 min-h-screen">
 
+      <div class="products-navbar"></div>
+
       <!-- Page Header -->
-      <header class="bg-blue-600 text-white py-16">
+      <header class="bg-blue-600 text-white pt-32 pb-16">
           <div class="container mx-auto px-4 text-center">
               <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold">Shop Our Products</h1>
               <p class="mt-2 text-lg sm:text-xl text-blue-100">
