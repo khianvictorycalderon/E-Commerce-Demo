@@ -17,7 +17,7 @@ export const FooterComponent = `
           <span class="ml-2 text-xl font-bold">E-Commerce Demo</span>
         </div>
 
-        <p class="text-gray-400">Simple, fast, and secure online shopping.</p>
+        <p class="text-gray-400">Developed by <a class="underline font-semibold cursor-pointer" href="https://khian.netlify.app" target="_blank">Khian Victory D. Calderon</a></p>
 
         <div class="flex justify-center lg:justify-start space-x-4">
           <!-- social icons ... unchanged -->
