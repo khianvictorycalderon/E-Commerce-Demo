@@ -1,69 +1,100 @@
 <?php
-    session_start();
-    require_once("../phps/db.php"); // include your transactionalMySQLQuery()
-    require_once("../phps/tables.php"); // All table schemas so it is unified
+session_start();
+require_once("../phps/db.php");
+require_once("../phps/tables.php"); // All table schemas
 
-    // If already logged in → redirect to products
-    if (isset($_SESSION["user_id"])) {
-        header("Location: /products/");
-        exit();
+// Redirect if logged in
+if (isset($_SESSION["user_id"])) {
+    header("Location: /products/");
+    exit();
+}
+
+// UUID generator (manual)
+function generate_uuid_v4_manual() {
+    $randomHex = function($length) {
+        $hex = '';
+        for ($i = 0; $i < $length; $i++) {
+            $hex .= dechex(mt_rand(0, 15));
+        }
+        return $hex;
+    };
+
+    $time_low = $randomHex(8);
+    $time_mid = $randomHex(4);
+    $time_hi_and_version = '4' . $randomHex(3);
+    $variants = ['8', '9', 'a', 'b'];
+    $clock_seq_hi_and_reserved = $variants[mt_rand(0,3)] . $randomHex(3);
+    $node = $randomHex(12);
+
+    return sprintf(
+        '%s-%s-%s-%s-%s',
+        $time_low,
+        $time_mid,
+        $time_hi_and_version,
+        $clock_seq_hi_and_reserved,
+        $node
+    );
+}
+
+// Server-side form submission
+$errors = [];
+$success = false;
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $first_name = trim($_POST["first_name"] ?? "");
+    $last_name  = trim($_POST["last_name"] ?? "");
+    $birth_date = trim($_POST["birth_date"] ?? "");
+    $username   = trim($_POST["username"] ?? "");
+    $password   = trim($_POST["password"] ?? "");
+    $confirm_password = trim($_POST["confirm_password"] ?? "");
+
+    // --- Back-end Validation ---
+    // First name validation: required, letters + spaces only
+    if (!$first_name) {
+        $errors[] = "First name is required.";
+    } elseif (!preg_match('/^[A-Za-z ]+$/', $first_name)) {
+        $errors[] = "First name can only contain letters and spaces.";
     }
 
-    function generate_uuid_v4_manual() {
-        // Helper: generate a random hex string of $length characters
-        $randomHex = function($length) {
-            $hex = '';
-            for ($i = 0; $i < $length; $i++) {
-                $hex .= dechex(mt_rand(0, 15)); // 0..15 → 0..f
-            }
-            return $hex;
-        };
-
-        // Build UUID parts
-        $time_low = $randomHex(8);
-        $time_mid = $randomHex(4);
-        
-        // version 4: the first character must be 4
-        $time_hi_and_version = '4' . $randomHex(3);
-
-        // variant: first character must be 8, 9, a, or b
-        $variants = ['8','9','a','b'];
-        $clock_seq_hi_and_reserved = $variants[mt_rand(0,3)] . $randomHex(3);
-
-        $node = $randomHex(12);
-
-        // Combine into UUID format
-        return sprintf('%s-%s-%s-%s-%s', $time_low, $time_mid, $time_hi_and_version, $clock_seq_hi_and_reserved, $node);
+    // Last name validation: required, letters + spaces only
+    if (!$last_name) {
+        $errors[] = "Last name is required.";
+    } elseif (!preg_match('/^[A-Za-z ]+$/', $last_name)) {
+        $errors[] = "Last name can only contain letters and spaces.";
     }
 
-    // Server-side form submission handling
-    $errors = [];
-    $success = false;
+    if (!$birth_date) {
+        $errors[] = "Birth date is required.";
+    } else {
+        $age = (int)date('Y') - (int)date('Y', strtotime($birth_date));
+        if ($age < 12) {
+            $errors[] = "You must be at least 12 years old to register.";
+        }
+    }
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        // Capture POST variables
-        $first_name = trim($_POST["first_name"] ?? "");
-        $last_name  = trim($_POST["last_name"] ?? "");
-        $birth_date = trim($_POST["birth_date"] ?? "");
-        $username   = trim($_POST["username"] ?? "");
-        $password   = trim($_POST["password"] ?? "");
-        $confirm_password = trim($_POST["confirm_password"] ?? "");
+    if (!$username) {
+        $errors[] = "Username is required.";
+    } elseif (strlen($username) < 4) {
+        $errors[] = "Username must be at least 4 characters long.";
+    }
 
-        // Basic server-side validation
-        if (!$first_name) $errors[] = "First name is required.";
-        if (!$last_name)  $errors[] = "Last name is required.";
-        if (!$birth_date) $errors[] = "Birth date is required.";
-        if (!$username)   $errors[] = "Username is required.";
-        if (!$password)   $errors[] = "Password is required.";
-        if ($password !== $confirm_password) $errors[] = "Passwords do not match.";
+    if (!$password) {
+        $errors[] = "Password is required.";
+    } elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/', $password)) {
+        $errors[] = "Password must be at least 8 characters and include 1 uppercase, 1 lowercase, and 1 special character.";
+    }
 
-        if (empty($errors)) {
-        // --- Auto-create table if not exists ---
+    if ($password !== $confirm_password) {
+        $errors[] = "Passwords do not match.";
+    }
+
+    // If no errors → insert user
+    if (empty($errors)) {
         $tableResult = transactionalMySQLQuery($userTableQuery);
         if (is_string($tableResult)) {
             $errors[] = "DB Error: " . $tableResult;
         } else {
-            // --- Check if username already exists ---
+            // Check if username exists
             $existing = transactionalMySQLQuery(
                 "SELECT id FROM users WHERE username = ?",
                 [$username]
@@ -72,12 +103,13 @@
             if (is_string($existing)) {
                 $errors[] = "DB Error: " . $existing;
             } elseif (!empty($existing)) {
-                $errors[] = "Username already taken, please choose another.";
-            } else {
-                // --- Insert new user ---
+                $errors[] = "Username already taken.";
+            }
+
+            if (empty($errors)) {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-                // Generate a unique UUID
+                // Ensure UUID is unique
                 do {
                     $user_id = generate_uuid_v4_manual();
                     $existing_id = transactionalMySQLQuery(
@@ -86,22 +118,21 @@
                     );
                 } while (!empty($existing_id));
 
-                $insertQuery = "INSERT INTO users (id, first_name, last_name, birth_date, username, password) VALUES (?, ?, ?, ?, ?, ?)";
-                $insertResult = transactionalMySQLQuery($insertQuery, [$user_id, $first_name, $last_name, $birth_date, $username, $hashed_password]);
+                $insertResult = transactionalMySQLQuery(
+                    "INSERT INTO users (id, first_name, last_name, birth_date, username, password) VALUES (?, ?, ?, ?, ?, ?)",
+                    [$user_id, $first_name, $last_name, $birth_date, $username, $hashed_password]
+                );
 
                 if ($insertResult === true) {
                     $success = true;
                 } else {
                     $errors[] = "DB Error: " . $insertResult;
                 }
-
             }
         }
     }
-
-    }
+}
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -113,20 +144,15 @@
         <title>Register Account</title>
     </head>
     <body class="min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600">
-
         <div class="navbar"></div>
 
         <div class="min-h-screen flex items-center justify-center px-4 pt-24 pb-10">
-
             <section class="w-full max-w-md bg-white/95 backdrop-blur rounded-2xl shadow-xl border border-white/40 p-6 sm:p-8 space-y-6">
-
-                <!-- Header -->
                 <div class="text-center space-y-1">
                     <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Create your Account</h1>
                     <p class="text-gray-500 text-sm">Sign up to start shopping</p>
                 </div>
 
-                <!-- Error Messages -->
                 <?php if (!empty($errors)): ?>
                     <div class="bg-red-100 text-red-700 p-3 rounded-lg text-sm space-y-1">
                         <?php foreach ($errors as $error): ?>
@@ -135,20 +161,30 @@
                     </div>
                 <?php endif; ?>
 
-                <!-- Form -->
                 <form method="POST" action="" class="space-y-5" id="registerForm">
-
+                    <!-- First Name -->
                     <div>
                         <label class="block text-sm font-medium mb-1">First Name</label>
-                        <input type="text" name="first_name" required
+                        <input 
+                            type="text" 
+                            name="first_name" 
+                            required 
+                            pattern="[A-Za-z ]+" 
+                            title="First name can only contain letters and spaces."
                             class="w-full px-4 py-2.5 rounded-xl border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition"
                             placeholder="John"
                         />
                     </div>
 
+                    <!-- Last Name -->
                     <div>
                         <label class="block text-sm font-medium mb-1">Last Name</label>
-                        <input type="text" name="last_name" required
+                        <input 
+                            type="text" 
+                            name="last_name" 
+                            required 
+                            pattern="[A-Za-z ]+" 
+                            title="Last name can only contain letters and spaces."
                             class="w-full px-4 py-2.5 rounded-xl border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition"
                             placeholder="Doe"
                         />
@@ -156,40 +192,31 @@
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Birth Date</label>
-                        <input type="date" name="birth_date" required
-                            class="w-full px-4 py-2.5 rounded-xl border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition"
-                        />
+                        <input type="date" name="birth_date" required max="<?= date('Y-m-d', strtotime('-12 years')) ?>"
+                            class="w-full px-4 py-2.5 rounded-xl border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition"/>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Username</label>
-                        <input type="text" name="username" required
-                            class="w-full px-4 py-2.5 rounded-xl border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition"
-                            placeholder="johndoe123"
-                        />
+                        <input type="text" name="username" required minlength="4"
+                            class="w-full px-4 py-2.5 rounded-xl border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition" placeholder="johndoe123"/>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Password</label>
                         <input type="password" name="password" id="password" required
-                            class="w-full px-4 py-2.5 rounded-xl border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition"
-                            placeholder="••••••••"
-                        />
+                            pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}"
+                            title="Min 8 characters, 1 uppercase, 1 lowercase, 1 special character"
+                            class="w-full px-4 py-2.5 rounded-xl border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition" placeholder="••••••••"/>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Confirm Password</label>
                         <input type="password" name="confirm_password" id="confirm_password" required
-                            class="w-full px-4 py-2.5 rounded-xl border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition"
-                            placeholder="••••••••"
-                        />
+                            class="w-full px-4 py-2.5 rounded-xl border-gray-300 border focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition" placeholder="••••••••"/>
                     </div>
 
-                    <button type="submit"
-                        class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold tracking-wide transition"
-                    >
-                        Register
-                    </button>
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold tracking-wide transition">Register</button>
 
                     <?php if ($success): ?>
                         <div class="bg-green-100 text-green-700 p-3 rounded-lg text-sm">
@@ -197,32 +224,44 @@
                         </div>
                     <?php endif; ?>
 
-
                     <p class="text-center text-gray-500 text-sm mt-2">
                         Already have an account? 
                         <a href="/login" class="text-blue-600 hover:text-blue-500 font-medium transition">Login</a>
                     </p>
-
                 </form>
-
             </section>
-
         </div>
 
         <div class="footer"></div>
 
         <script>
-        // Client-side password confirmation
+        // Front-end JS Validation
         const form = document.getElementById('registerForm');
         form.addEventListener('submit', (e) => {
             const password = form.password.value;
             const confirm = form.confirm_password.value;
+            const birth_date = new Date(form.birth_date.value);
+            const today = new Date();
+            const age = today.getFullYear() - birth_date.getFullYear();
+
             if (password !== confirm) {
                 e.preventDefault();
                 alert("Passwords do not match!");
+                return;
+            }
+
+            if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}/.test(password)) {
+                e.preventDefault();
+                alert("Password must be at least 8 characters and include 1 uppercase, 1 lowercase, 1 special character.");
+                return;
+            }
+
+            if (age < 12) {
+                e.preventDefault();
+                alert("You must be at least 12 years old to register.");
+                return;
             }
         });
         </script>
-
     </body>
 </html>
