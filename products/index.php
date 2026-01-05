@@ -40,24 +40,8 @@ if (is_string($products)) {
             </div>
         </header>
 
-        <!-- Filter / Categories Section -->
-        <section class="container mx-auto px-4 mt-8">
-            <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-                <div>
-                    <input type="text" placeholder="Search products..." class="px-4 py-2 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition w-full sm:w-64">
-                </div>
-
-                <div class="flex flex-wrap gap-2">
-                    <button class="px-4 py-2 rounded-xl bg-blue-500 text-white hover:bg-blue-400 transition">All</button>
-                    <button class="px-4 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 transition">Electronics</button>
-                    <button class="px-4 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 transition">Clothing</button>
-                    <button class="px-4 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 transition">Accessories</button>
-                </div>
-            </div>
-        </section>
-
         <!-- Products Grid -->
-        <section class="container mx-auto px-4">
+        <section class="container mx-auto px-4 pt-16">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
                 <?php if (!empty($products)): ?>
@@ -78,16 +62,6 @@ if (is_string($products)) {
                     <p class="text-center text-gray-500 col-span-full">No products available.</p>
                 <?php endif; ?>
 
-            </div>
-        </section>
-
-        <!-- Pagination -->
-        <section class="container mx-auto px-4 mt-8 flex justify-center">
-            <div class="flex space-x-2">
-                <button class="px-3 py-1 rounded-xl bg-gray-200 hover:bg-gray-300 transition">1</button>
-                <button class="px-3 py-1 rounded-xl bg-gray-200 hover:bg-gray-300 transition">2</button>
-                <button class="px-3 py-1 rounded-xl bg-gray-200 hover:bg-gray-300 transition">3</button>
-                <button class="px-3 py-1 rounded-xl bg-gray-200 hover:bg-gray-300 transition">Next</button>
             </div>
         </section>
 
