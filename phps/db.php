@@ -8,6 +8,33 @@ $db_pass = "";
 $db_name = "e_commerce_demo_db";
 $db_port = 3306;
 
+// UUID generator (manual)
+function generate_uuid_v4_manual() {
+    $randomHex = function($length) {
+        $hex = '';
+        for ($i = 0; $i < $length; $i++) {
+            $hex .= dechex(mt_rand(0, 15));
+        }
+        return $hex;
+    };
+
+    $time_low = $randomHex(8);
+    $time_mid = $randomHex(4);
+    $time_hi_and_version = '4' . $randomHex(3);
+    $variants = ['8', '9', 'a', 'b'];
+    $clock_seq_hi_and_reserved = $variants[mt_rand(0,3)] . $randomHex(3);
+    $node = $randomHex(12);
+
+    return sprintf(
+        '%s-%s-%s-%s-%s',
+        $time_low,
+        $time_mid,
+        $time_hi_and_version,
+        $clock_seq_hi_and_reserved,
+        $node
+    );
+}
+
 function transactionalMySQLQuery(string $query, array $params = []) {
     global $db_host, $db_user, $db_pass, $db_name, $db_port;
 

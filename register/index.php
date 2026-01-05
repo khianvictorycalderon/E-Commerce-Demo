@@ -9,33 +9,6 @@ if (isset($_SESSION["user_id"])) {
     exit();
 }
 
-// UUID generator (manual)
-function generate_uuid_v4_manual() {
-    $randomHex = function($length) {
-        $hex = '';
-        for ($i = 0; $i < $length; $i++) {
-            $hex .= dechex(mt_rand(0, 15));
-        }
-        return $hex;
-    };
-
-    $time_low = $randomHex(8);
-    $time_mid = $randomHex(4);
-    $time_hi_and_version = '4' . $randomHex(3);
-    $variants = ['8', '9', 'a', 'b'];
-    $clock_seq_hi_and_reserved = $variants[mt_rand(0,3)] . $randomHex(3);
-    $node = $randomHex(12);
-
-    return sprintf(
-        '%s-%s-%s-%s-%s',
-        $time_low,
-        $time_mid,
-        $time_hi_and_version,
-        $clock_seq_hi_and_reserved,
-        $node
-    );
-}
-
 // Server-side form submission
 $errors = [];
 $success = false;

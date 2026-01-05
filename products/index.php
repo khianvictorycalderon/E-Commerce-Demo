@@ -61,12 +61,13 @@ if (is_string($products)) {
                             <div class="mt-auto flex items-center justify-between">
                                 <span class="font-bold text-blue-600">$<?= number_format($product['price'], 2) ?></span>
 
-                                <a 
-                                    href="/products/cart?item=<?= urlencode($product['id']) ?>" 
-                                    class="px-3 py-1 rounded-lg bg-blue-500 text-white hover:bg-blue-400 transition text-sm"
-                                >
-                                    Add to Cart
-                                </a>
+                                <form method="POST" action="./cart" class="mt-auto flex items-center justify-between">
+                                    <input type="hidden" name="item" value="<?= htmlspecialchars($product['id']) ?>">
+                                    <button type="submit" class="px-3 py-1 rounded-lg bg-blue-500 text-white hover:bg-blue-400 transition text-sm">
+                                        Add to Cart
+                                    </button>
+                                </form>
+
                             </div>
                         </div>
                     <?php endforeach; ?>
