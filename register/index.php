@@ -30,21 +30,32 @@
         if ($password !== $confirm_password) $errors[] = "Passwords do not match.";
 
         if (empty($errors)) {
-            // --- Auto-create table if not exists ---
-            $createTableQuery = "
-                CREATE TABLE IF NOT EXISTS users (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    first_name VARCHAR(50) NOT NULL,
-                    last_name VARCHAR(50) NOT NULL,
-                    birth_date DATE NOT NULL,
-                    username VARCHAR(50) NOT NULL UNIQUE,
-                    password VARCHAR(255) NOT NULL,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                );
-            ";
-            $tableResult = transactionalMySQLQuery($createTableQuery);
-            if (is_string($tableResult)) {
-                $errors[] = "DB Error: " . $tableResult;
+        // --- Auto-create table if not exists ---
+        $createTableQuery = "
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                first_name VARCHAR(50) NOT NULL,
+                last_name VARCHAR(50) NOT NULL,
+                birth_date DATE NOT NULL,
+                username VARCHAR(50) NOT NULL UNIQUE,
+                password VARCHAR(255) NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        ";
+        $tableResult = transactionalMySQLQuery($createTableQuery);
+        if (is_string($tableResult)) {
+            $errors[] = "DB Error: " . $tableResult;
+        } else {
+            // --- Check if username already exists ---
+            $existing = transactionalMySQLQuery(
+                "SELECT id FROM users WHERE username = ?",
+                [$username]
+            );
+
+            if (is_string($existing)) {
+                $errors[] = "DB Error: " . $existing;
+            } elseif (!empty($existing)) {
+                $errors[] = "Username already taken, please choose another.";
             } else {
                 // --- Insert new user ---
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -58,6 +69,8 @@
                 }
             }
         }
+    }
+
     }
 ?>
 
