@@ -60,7 +60,13 @@ if (is_string($products)) {
                             <p class="mt-1 text-gray-500 text-sm line-clamp-2"><?= htmlspecialchars($product['description']) ?></p>
                             <div class="mt-auto flex items-center justify-between">
                                 <span class="font-bold text-blue-600">$<?= number_format($product['price'], 2) ?></span>
-                                <button class="px-3 py-1 rounded-lg bg-blue-500 text-white hover:bg-blue-400 transition text-sm">Add to Cart</button>
+
+                                <a 
+                                    href="/products/cart?item=<?= urlencode($product['id']) ?>" 
+                                    class="px-3 py-1 rounded-lg bg-blue-500 text-white hover:bg-blue-400 transition text-sm"
+                                >
+                                    Add to Cart
+                                </a>
                             </div>
                         </div>
                     <?php endforeach; ?>
