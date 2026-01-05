@@ -12,7 +12,6 @@
   <body>
 
     <?php
-    
         session_start();
 
         if (!isset($_SESSION["user_id"])) {
@@ -21,8 +20,10 @@
         }
 
         $signed_user = $_SESSION["user_id"];
-
     ?>
+
+    <!-- HTML CONTENT HERE -->
+    <h2>You are signed in!</h2>
 
   </body>
 </html>
