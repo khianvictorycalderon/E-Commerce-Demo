@@ -8,14 +8,31 @@
         exit();
     }
 
-    function generate_uuid_v4() {
-        return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-            mt_rand(0, 0xffff), mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0x0fff) | 0x4000,   // version 4
-            mt_rand(0, 0x3fff) | 0x8000,   // variant
-            mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
-        );
+    function generate_uuid_v4_manual() {
+        // Helper: generate a random hex string of $length characters
+        $randomHex = function($length) {
+            $hex = '';
+            for ($i = 0; $i < $length; $i++) {
+                $hex .= dechex(mt_rand(0, 15)); // 0..15 → 0..f
+            }
+            return $hex;
+        };
+
+        // Build UUID parts
+        $time_low = $randomHex(8);
+        $time_mid = $randomHex(4);
+        
+        // version 4: the first character must be 4
+        $time_hi_and_version = '4' . $randomHex(3);
+
+        // variant: first character must be 8, 9, a, or b
+        $variants = ['8','9','a','b'];
+        $clock_seq_hi_and_reserved = $variants[mt_rand(0,3)] . $randomHex(3);
+
+        $node = $randomHex(12);
+
+        // Combine into UUID format
+        return sprintf('%s-%s-%s-%s-%s', $time_low, $time_mid, $time_hi_and_version, $clock_seq_hi_and_reserved, $node);
     }
 
     // Server-side form submission handling
@@ -43,7 +60,7 @@
         // --- Auto-create table if not exists ---
         $createTableQuery = "
             CREATE TABLE IF NOT EXISTS users (
-                id CHAR(36) PRIMARY KEY,
+                id VARCHAR(200) PRIMARY KEY,
                 first_name VARCHAR(50) NOT NULL,
                 last_name VARCHAR(50) NOT NULL,
                 birth_date DATE NOT NULL,
@@ -69,7 +86,7 @@
             } else {
                 // --- Insert new user ---
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $user_id = generate_uuid_v4(); // generate UUID
+                $user_id = generate_uuid_v4_manual(); // generate UUID
 
                 $insertQuery = "INSERT INTO users (id, first_name, last_name, birth_date, username, password) VALUES (?, ?, ?, ?, ?, ?)";
                 $insertResult = transactionalMySQLQuery($insertQuery, [$user_id, $first_name, $last_name, $birth_date, $username, $hashed_password]);
